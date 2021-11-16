@@ -1,0 +1,38 @@
+extends layout
+
+block content
+ h1= title
+
+  if(toShow == null)
+    h2 No instance to detail
+  else
+    - let vegetablesid = toShow._id
+    - let vegetables_name = toShow.vegetables_name
+    - let vegetablescolor = toShow.color
+    - let vegetablesweight = toShow.weight
+    - let actionid = "/resource/vegetables/" + vegetablesid
+    script let actionid = "#{actionid}"
+    div
+    div.row
+    div(class='vegetablesAttr mr-3') vegetables ID is: 
+      span(style="color:red") #{vegetablesid}
+    div.row
+    div(class='vegetablesAttr mr-3') vegetables name is: 
+      span(style="color:red") #{vegetables_name}
+    div.row
+    div(class='vegetablesAttr mr-3') vegetables color is: 
+      span(style="color:red") #{vegetablescolor}
+    div.row
+    div(class='vegetablesAttr mr-3') vegetables weight is:
+      span(style="color:red") #{vegetablesweight}
+    button(class="btn btn-primary m-2" onclick="detailOnid()") Goback
+    button(class="btn btn-danger m-2" onclick="cancel()") Cancel
+
+  script.
+    function cancel() {
+    // Go back to the home page for the vegetables collection
+    window.location.href='/vegetables'
+    }
+    function detailOnid() {
+    window.location.href='/vegetables'
+    }

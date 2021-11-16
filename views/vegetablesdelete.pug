@@ -6,32 +6,32 @@ block content
   if(toShow == null)
     h2 No instance to delete
   else
-    - let gasid = toShow._id
-    - let gas_type = toShow.gas_type
-    - let gasquantity = toShow.quantity
-    - let gascost = toShow.cost
-    - let actionid = "/resource/gas/" + gasid
+    - let vegetablesid = toShow._id
+    - let vegetables_name = toShow.vegetables_name
+    - let vegetablescolor = toShow.color
+    - let vegetablesweight = toShow.weight
+    - let actionid = "/resource/vegetables/" + vegetablesid
     script let actionid = "#{actionid}"
     div
     div.row
-    div(class='gasAttr mr-3') Gas ID is: 
-      span(style="color:red") #{gasid}
+    div(class='vegetablesAttr mr-3') vegetables ID is: 
+      span(style="color:red") #{vegetablesid}
     div.row
-    div(class='gasAttr mr-3') Gas Type is: 
-      span(style="color:red") #{gas_type}
+    div(class='vegetablesAttr mr-3') vegetables name is: 
+      span(style="color:red") #{vegetables_name}
     div.row
-    div(class='gasAttr mr-3') Gas quantity is: 
-      span(style="color:red") #{gasquantity}
+    div(class='vegetablesAttr mr-3') vegetables color is: 
+      span(style="color:red") #{vegetablescolor}
     div.row
-    div(class='gasAttr mr-3') Gas Cost is: 
-      span(style="color:red") #{gascost}
+    div(class='vegetablesAttr mr-3') vegetables weight is: 
+      span(style="color:red") #{vegetablesweight}
     button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
     button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
 
   script.
     function cancel() {
-    // Go back to the home page for the gas collection
-    window.location.href='/gas'
+    // Go back to the home page for the vegetables collection
+    window.location.href='/vegetables'
     }
     function deleteOnid() {
     console.log("starting delete")
@@ -42,7 +42,7 @@ block content
     return resp.json(); // or resp.text() or whatever the server sends
     }).then((body) => {
     alert("Delete succeded")
-    window.location.href='/gas'
+    window.location.href='/vegetables'
     // TODO handle body
     }).catch((error) => {
     // TODO handle error
