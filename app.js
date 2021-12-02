@@ -3,6 +3,27 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var mongoose = require('mongoose');
+var vegetables = require("./models/vegetables");
+
+passport.use(new LocalStrategy(function(username, password, done) {
+  Account.findOne({ username: username }, function (err, user) {
+    if (err) { 
+      return done(err); 
+    }
+    if (!user) {
+      return done(null, false, { 
+        message: 'Incorrect username.' 
+      });
+    }
+    if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+    }
+    return done(null, user);
+  });
+}));
 var mongoose = require('mongoose');
 var Vegetables = require("./models/vegetables");
 
@@ -76,6 +97,29 @@ app.use(express.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+ }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/vegetables', vegetablesRouter);
+app.use('/addmods', addmodsRouter);
+app.use('/selector', selectorRouter);
+app.use('/', resourceRouter);
+
+// passport config
+// Use the existing connection
+// The Account model
+var Account =require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
