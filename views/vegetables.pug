@@ -1,24 +1,28 @@
 extends layout
 
 block content
-  h1= title
-  //- - let items = ['gas_type','quantity','cost']
-  - let items = results;
-  - let o;
+  - let destinations1 = `dispatch(\"/vegetables/create\")` 
+   button.btn( class="btn-primary m-1", onclick= destinations1) Create
+  h1= title 
+  - let vegetables = results;
   script.
     function buy(x){
-      alert('purchased item ' + x)
+      alert('Purchased Item: ' + x)
    } 
   div(class='container-fluid')
     div(class='row m-1')
-    div(class="row row-cols-1 row-cols-sm-4 g-6")
-      each item, index in items
-        - let destination = `dispatch(\"/gas/update?id=${item._id}\")`
-        div(class="card text-white bg-secondary mb-3" class='col' class='card' class='card-body' class='card-text' onclick='buy('+index+')') Item #{item.vegetables_name}(#{item.color})is #{item.weight}
-          <br><br>
-          button.btn( class="btn-danger ml-1", onclick= destination) Update
+      each m, index in vegetables 
+       - let destination = `dispatch(\"/vegetables/update?id=${m._id}\")`
+       - let destinations2 = `dispatch(\"/vegetables/detail?id=${m._id}\")`
+       - let destinations3 = `dispatch(\"/vegetables/delete?id=${m._id}\")`
 
-  script.
-    function dispatch(path){
-      window.location.href=path
+       div(class="row-sm-2", class="m-1") Item #{m.vegetables_name}(#{m.color}) is #{m.weight}
+        button.btn( class="btn-primary ml-1", onclick= destination) Update
+        button.btn( class="btn-success m-1", onclick= destinations2) Detail
+        button.btn( class="btn-danger m-1", onclick= destinations3) Delete
+
+
+  script. 
+    function dispatch(path){ 
+      window.location.href=path 
     }
